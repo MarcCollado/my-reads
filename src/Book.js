@@ -11,15 +11,15 @@ class Book extends Component {
   render() {
     const { imageURL, title, authors } = this.props;
 
-    const displayAuthors = authors => {
+    const displayAuthors = (authors) => {
       let str = '';
       authors.forEach((author, i) => {
         str += i === authors.length - 1
-        ? `${author}`
-        : `${author} & `
+          ? `${author}`
+          : `${author} & `;
       });
       return str;
-    }
+    };
 
     return (
       <div className="book">
@@ -29,12 +29,13 @@ class Book extends Component {
             style={{
               width: 128,
               height: 192,
-              backgroundImage: `url(${imageURL})` }}
+              backgroundImage: `url(${imageURL})`,
+            }}
           />
           <div className="book-shelf-changer">
             <select>
               <option value="none" disabled>Move to...</option>
-              <option value="currentlyReading">Currently Reading</option>
+              <option value="currentlyReading" selected>Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
             </select>
@@ -43,6 +44,8 @@ class Book extends Component {
         <div className="book-title">{title}</div>
         <div className="book-authors">{displayAuthors(authors)}</div>
       </div>
-    )
+    );
   }
 }
+
+export default Book;
