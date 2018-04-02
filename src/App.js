@@ -13,7 +13,6 @@ class BooksApp extends Component {
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
-        console.log(books);
         this.setState(() => ({
           books,
         }));
@@ -40,13 +39,9 @@ class BooksApp extends Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            {/* <Route exact path="/"
-              render={() => (
-                <ListBooks
+            <ListBooks
               books={this.state.books}
-                />
-              )}
-            /> */}
+            />
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
             </div>

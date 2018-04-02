@@ -12,6 +12,9 @@ class ListBooks extends Component {
   }
 
   render() {
+    const { books } = this.props;
+    const moveToBookShelf = bookShelf => books.filter(book => book.shelf === bookShelf);
+
     return (
       <div className="list-books-content">
         <div>
@@ -19,12 +22,15 @@ class ListBooks extends Component {
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
+                {moveToBookShelf('currentlyReading').map(book => (
+                  <Book
+                    key={book.id}
+                    authors={book.authors}
+                    imageURL={book.imageLinks.thumbnail}
+                    shelf={book.shelf}
+                    title={book.title}
+                  />
+                ))}
               </ol>
             </div>
           </div>
@@ -32,15 +38,15 @@ class ListBooks extends Component {
             <h2 className="bookshelf-title">Want to Read</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
+                {moveToBookShelf('wantToRead').map(book => (
+                  <Book
+                    key={book.id}
+                    authors={book.authors}
+                    imageURL={book.imageLinks.thumbnail}
+                    shelf={book.shelf}
+                    title={book.title}
+                  />
+                ))}
               </ol>
             </div>
           </div>
@@ -48,18 +54,15 @@ class ListBooks extends Component {
             <h2 className="bookshelf-title">Read</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
-                <li>
-                  <Book />
-                </li>
+                {moveToBookShelf('read').map(book => (
+                  <Book
+                    key={book.id}
+                    authors={book.authors}
+                    imageURL={book.imageLinks.thumbnail}
+                    shelf={book.shelf}
+                    title={book.title}
+                  />
+                ))}
               </ol>
             </div>
           </div>
