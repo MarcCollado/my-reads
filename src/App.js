@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
+import Search from './Search';
 import './App.css';
 
 class BooksApp extends Component {
@@ -48,27 +49,14 @@ class BooksApp extends Component {
         />
         <Route exact path="/search"
           render={() => (
-            <div className="search-books">
-              <div className="search-books-bar">
-                <Link
-                  to="/"
-                  className="close-search"
-                ><a>Close</a>
-                </Link>
-                <div className="search-books-input-wrapper">
-                  <input type="text" placeholder="Search by title or author" />
-                </div>
-              </div>
-              <div className="search-books-results">
-                <ol className="books-grid" />
-              </div>
-            </div>
+            <Search
+            />
           )}
         />
         <Link
           to="/search"
           className="open-search"
-        ><a>Add a book</a>
+        >Add a book
         </Link>
       </div>
     );
