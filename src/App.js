@@ -19,12 +19,15 @@ class BooksApp extends Component {
   }
 
   onShelfChange = (newShelf, bookId) => {
-    console.log(`newShelf === ${newShelf}`);
-    console.log(`bookId === ${bookId}`);
-    BooksAPI.update(bookId, newShelf)
-      .then((bookList) => {
-        console.log(bookList);
-      });
+    this.setState(currentState => ({
+      books: currentState.books.map((book) => {
+        if (book.id === bookId) {
+          book.shelf = newShelf;
+          return book;
+        }
+        return book;
+      }),
+    }));
   }
 
   render() {
