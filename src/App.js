@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import Search from './Search';
+import * as BooksAPI from './BooksAPI';
 import './App.css';
 
 class BooksApp extends Component {
-  state = {
-    books: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: [],
+    };
   }
 
   componentDidMount() {
@@ -34,7 +37,9 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/"
+        <Route
+          exact
+          path="/"
           render={() => (
             <div className="list-books">
               <div className="list-books-title">
@@ -47,10 +52,11 @@ class BooksApp extends Component {
             </div>
           )}
         />
-        <Route exact path="/search"
+        <Route
+          exact
+          path="/search"
           render={() => (
-            <Search
-            />
+            <Search />
           )}
         />
         <Link

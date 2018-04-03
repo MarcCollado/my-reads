@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
   static propTypes = {
-    authors: PropTypes.array.isRequired,
+    authors: PropTypes.array,
     id: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired,
+    shelf: PropTypes.string,
     title: PropTypes.string.isRequired,
     onShelfChange: PropTypes.func,
   }
@@ -16,15 +16,21 @@ class Book extends Component {
       authors, id, imageURL, shelf, title,
     } = this.props;
 
-    const displayAuthors = (authorList) => {
-      let str = '';
-      authorList.forEach((author, i) => {
-        str += i === authors.length - 1
-          ? `${author}`
-          : `${author} & `;
-      });
-      return str;
-    };
+    const displayAuthors = authorList => authorList.join(' & ');
+    /*
+    * This is how displayAuthors looked like,
+    * I just left it here to pat myself on the back
+    * on how to turn seven lines into a one liner
+    * ```
+    * let str = '';
+    * authorList.forEach((author, i) => {
+    *   str += i === authors.length - 1
+    *     ? `${author}`
+    *     : `${author} & `;
+    * });
+    * return str;
+    * ```
+    */
 
     return (
       <li>
@@ -51,7 +57,7 @@ class Book extends Component {
             </div>
           </div>
           <div className="book-title">{title}</div>
-          <div className="book-authors">{displayAuthors(authors)}</div>
+          <div className="book-authors">{authors && displayAuthors(authors)}</div>
         </div>
       </li>
     );
