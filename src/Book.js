@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 class Book extends Component {
   static propTypes = {
     authors: PropTypes.array.isRequired,
+    id: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
     shelf: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    onShelfChange: PropTypes.func,
   }
 
   render() {
     const {
-      authors, imageURL, shelf, title,
+      authors, id, imageURL, shelf, title,
     } = this.props;
 
-    const displayAuthors = (authors) => {
+    const displayAuthors = (authorList) => {
       let str = '';
-      authors.forEach((author, i) => {
+      authorList.forEach((author, i) => {
         str += i === authors.length - 1
           ? `${author}`
           : `${author} & `;
@@ -37,9 +39,12 @@ class Book extends Component {
               }}
             />
             <div className="book-shelf-changer">
-              <select>
+              <select
+                value={shelf}
+                onChange={event => this.props.onShelfChange(event.target.value, id)}
+              >
                 <option value="none" disabled>Move to...</option>
-                <option value="currentlyReading" selected>Currently Reading</option>
+                <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
               </select>

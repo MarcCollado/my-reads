@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import './App.css';
@@ -16,6 +15,15 @@ class BooksApp extends Component {
         this.setState(() => ({
           books,
         }));
+      });
+  }
+
+  onShelfChange = (newShelf, bookId) => {
+    console.log(`newShelf === ${newShelf}`);
+    console.log(`bookId === ${bookId}`);
+    BooksAPI.update(bookId, newShelf)
+      .then((bookList) => {
+        console.log(bookList);
       });
   }
 
@@ -41,6 +49,7 @@ class BooksApp extends Component {
             </div>
             <ListBooks
               books={this.state.books}
+              onShelfChange={this.onShelfChange}
             />
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
