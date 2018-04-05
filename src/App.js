@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import ListBooks from './ListBooks';
 import Search from './Search';
 import * as BooksAPI from './utils/BooksAPI';
+import * as LocalStorage from './utils/localStorage';
 import './App.css';
 
 class BooksApp extends Component {
@@ -14,12 +15,27 @@ class BooksApp extends Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll()
+    if (true) {
+      const localBooks = LocalStorage.getFile('localBooks');
+
+      console.log(typeof localBooks);
+
+      // const printer = localBooks.forEach(char => {
+      //   console.log(char);
+      // })
+
+      this.setState(() => ({
+        books: localBooks,
+      }));
+    } else {
+      BooksAPI.getAll()
       .then((books) => {
+        LocalStorage.saveFile('localBooks', books);
         this.setState(() => ({
           books,
         }));
       });
+    }
   }
 
   onShelfChange = (newShelf, bookId) => {
@@ -32,6 +48,7 @@ class BooksApp extends Component {
         return book;
       }),
     }));
+    LocalStorage.saveFile('localBooks', this.state.books);
   }
 
   render() {
