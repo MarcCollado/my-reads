@@ -18,7 +18,7 @@ class Book extends Component {
 
     const displayAuthors = authorList => authorList.join(' & ');
     /*
-    * This is how displayAuthors looked like,
+    * This is how displayAuthors looked like before refactor,
     * I just left it here to pat myself on the back
     * on how to turn seven lines into a one liner
     * ```
