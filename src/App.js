@@ -11,45 +11,31 @@ class BooksApp extends Component {
     super(props);
     this.state = {
       books: [],
+      isLoading: true,
     };
   }
-  // componentWillMount() => false && this.state.books != []
+
   componentDidMount() {
-    console.log(this.state.books);
-    if (this.state.books != []) {
-      const localBooks = StorageAPI.getFile('localBooks');
+    if (StorageAPI.getFile('localBooks')) {
       this.setState(() => ({
-        books: localBooks,
+        books: StorageAPI.getFile('localBooks'),
+        isLoading: false,
       }));
     } else {
       BooksAPI.getAll()
-      .then((books) => {
-        this.setState(() => ({
-          books,
-        }));
-        StorageAPI.saveFile('localBooks', this.state.books);
-      });
+        .then((books) => {
+          this.setState(() => ({
+            books,
+            isLoading: false,
+          }));
+          // Save a copy to LocalStorage
+          StorageAPI.saveFile('localBooks', this.state.books);
+        });
     }
   }
 
-  // onShelfChange = (newShelf, bookId, callback) => {
-  //   const callbak = currentState => ({
-  //     books: currentState.books.map((book) => {
-  //       if (book.id === bookId) {
-  //         book.shelf = newShelf;
-  //         return book;
-  //       }
-  //       return book;
-  //     }),
-  //   })
-  //   const newState = this.setState(callback);
-  //   setTimeout(() => {
-  //     StorageAPI.saveFile('localBooks', this.state.books);
-  //   }, 500);
-  // }
-
   onShelfChange = (newShelf, bookId) => {
-    const updateBookCb = (currentState) => ({
+    const partialStateCb = currentState => ({
       books: currentState.books.map((book) => {
         if (book.id === bookId) {
           book.shelf = newShelf;
@@ -58,37 +44,39 @@ class BooksApp extends Component {
         return book;
       }),
     });
-    const updateLocalCb = () => {
+    this.setState(partialStateCb, () => {
       StorageAPI.saveFile('localBooks', this.state.books);
+    });
+  }
+
+  appSwitcher = () => {
+    if (this.state.isLoading) {
+      return (
+        <div className="loading">
+          <p>Getting things ready...</p>
+        </div>
+      );
     }
-    this.setState(updateBookCb, updateLocalCb);
+    return (
+      <div className="list-books">
+        <div className="list-books-title">
+          <h1>MyReads</h1>
+        </div>
+        <ListBooks
+          books={this.state.books}
+          onShelfChange={this.onShelfChange}
+        />
+      </div>
+    );
   }
 
   render() {
-    // Save
-    // if (this.state.books) {
-    //   StorageAPI.saveFile('localBooks', this.state.books);
-    // }
-
     return (
       <div className="app">
         <Route
           exact
           path="/"
-          render={() => (
-            // if (this.state.loading) {
-            //   <p>loading...</p>
-            // }
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <ListBooks
-                books={this.state.books}
-                onShelfChange={this.onShelfChange}
-              />
-            </div>
-          )}
+          render={this.appSwitcher}
         />
         <Route
           exact
