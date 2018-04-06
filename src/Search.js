@@ -20,23 +20,24 @@ class Search extends Component {
   updateQuery = (query) => {
     this.setState({
       query,
-    });
-    return this.state.query;
+    }, () => this.state.query);
   }
 
   callAPI = (query) => {
-    BooksAPI.search(this.state.query)
+    if (query.length > 0) {
+      BooksAPI.search(this.state.query)
       .then((books) => {
+        console.log(`query => ${query} \n API => ${books}`);
         this.setState({
           searchResult: books,
         });
       });
+    }
   }
 
   displaySearchResults() {
     const { searchResult } = this.state;
     if (searchResult) {
-      // console.log(searchResult);
       return (
         searchResult.map(book => (
           <Book
