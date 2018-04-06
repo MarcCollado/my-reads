@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 import Book from './Book';
 import * as BooksAPI from './utils/BooksAPI';
 import './App.css';
@@ -8,6 +9,7 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       query: '',
       searchResult: [],
     };
@@ -17,38 +19,53 @@ class Search extends Component {
     this.callAPI(e);
     this.setState({
       query: e,
+      isLoading: true,
     });
   }
 
   callAPI = (query) => {
     if (query.length > 0) {
       BooksAPI.search(query)
-      .then((books) => {
-        console.log(`query => ${query} \n API => ${books}`);
-        this.setState({
-          searchResult: books,
+        .then((books) => {
+          console.log(`query => ${query} \n API => ${books}`);
+          if (books) {
+            this.setState({
+              isLoading: false,
+              query,
+              searchResult: books,
+            });
+          } else {
+            console.log('API ERROR!');
+          }
         });
-      });
     }
   }
 
-  displaySearchResults() {
-    const { searchResult } = this.state;
-    if (searchResult) {
+  appState() {
+    if (this.state.isLoading) {
       return (
-        searchResult.map(book => (
-          <Book
-            key={book.id}
-            authors={book.authors}
-            id={book.id}
-            imageURL={book.imageLinks.thumbnail}
-            shelf={book.shelf}
-            title={book.title}
-            onShelfChange={this.props.onShelfChange}
+        <div className="loading">
+          <BeatLoader
+            size={20}
+            color={'#36D7B7'}
+            loading={this.state.isLoading}
           />
-        ))
+        </div>
       );
     }
+    return (
+      this.state.searchResult.map(book => (
+        <Book
+          key={book.id}
+          authors={book.authors}
+          id={book.id}
+          imageURL={book.imageLinks.thumbnail}
+          shelf={book.shelf}
+          title={book.title}
+          onShelfChange={this.props.onShelfChange}
+        />
+      ))
+    );
   }
 
   render() {
@@ -74,7 +91,7 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.displaySearchResults()}
+            {this.appState()}
           </ol>
         </div>
       </div>

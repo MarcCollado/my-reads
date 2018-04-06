@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 import ListBooks from './ListBooks';
 import Search from './Search';
 import * as BooksAPI from './utils/BooksAPI';
@@ -32,10 +33,6 @@ class BooksApp extends Component {
     }
   }
 
-  componentWillUnmount() {
-    StorageAPI.saveFile('localBooks', this.state.books);
-  }
-
   onShelfChange = (newShelf, bookId) => {
     const partialStateCb = currentState => ({
       books: currentState.books.map((book) => {
@@ -51,11 +48,14 @@ class BooksApp extends Component {
     });
   }
 
-  appSwitcher = () => {
+  appState = () => {
     if (this.state.isLoading) {
       return (
         <div className="loading">
-          <p>Getting things ready...</p>
+          <BeatLoader
+            color={'#36D7B7'}
+            loading={this.state.isLoading}
+          />
         </div>
       );
     }
@@ -65,6 +65,7 @@ class BooksApp extends Component {
           <h1>MyReads</h1>
         </div>
         <ListBooks
+          size={20}
           books={this.state.books}
           onShelfChange={this.onShelfChange}
         />
@@ -78,7 +79,7 @@ class BooksApp extends Component {
         <Route
           exact
           path="/"
-          render={this.appSwitcher}
+          render={this.appState}
         />
         <Route
           exact
@@ -94,6 +95,10 @@ class BooksApp extends Component {
         </Link>
       </div>
     );
+  }
+
+  componentWillUnmount() {
+    StorageAPI.saveFile('localBooks', this.state.books);
   }
 }
 
