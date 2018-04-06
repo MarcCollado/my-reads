@@ -28,10 +28,12 @@ class BooksApp extends Component {
             books,
             isLoading: false,
           }));
-          // Save a copy to LocalStorage
-          StorageAPI.saveFile('localBooks', this.state.books);
         });
     }
+  }
+
+  componentWillUnmount() {
+    StorageAPI.saveFile('localBooks', this.state.books);
   }
 
   onShelfChange = (newShelf, bookId) => {

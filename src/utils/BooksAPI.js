@@ -33,17 +33,17 @@ export const update = (book, shelf) =>
   }).then(res => res.json())
 
 export const search = (query) => {
-  if (query === '') return null;
-
-  return (
-    fetch(`${api}/search`, {
-      method: 'POST',
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ query })
-    }).then(res => res.json())
+  if (query) {
+    return (
+      fetch(`${api}/search`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+      }).then(res => res.json())
       .then(data => data.books)
-  )
+    )
+  }
 }

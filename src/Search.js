@@ -13,19 +13,16 @@ class Search extends Component {
     };
   }
 
-  launchSearch = (query) => {
-    this.callAPI(this.updateQuery(query));
-  }
-
-  updateQuery = (query) => {
+  handleChange = (e) => {
+    this.callAPI(e);
     this.setState({
-      query,
-    }, () => this.state.query);
+      query: e,
+    });
   }
 
   callAPI = (query) => {
     if (query.length > 0) {
-      BooksAPI.search(this.state.query)
+      BooksAPI.search(query)
       .then((books) => {
         console.log(`query => ${query} \n API => ${books}`);
         this.setState({
@@ -71,7 +68,7 @@ class Search extends Component {
               type="text"
               placeholder="Search by title or author"
               value={query}
-              onChange={event => this.launchSearch(event.target.value)}
+              onChange={e => this.handleChange(e.target.value)}
             />
           </div>
         </div>
