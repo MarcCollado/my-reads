@@ -24,10 +24,10 @@ class Search extends Component {
   }
 
   callAPI = (query) => {
-    if (query.length > 0) {
+    if (query) {
       BooksAPI.search(query)
         .then((books) => {
-          console.log(`query => ${query} \n API => ${books}`);
+          console.log(`query => ${query} \n API => `, books);
           if (books) {
             this.setState({
               isLoading: false,
@@ -38,15 +38,17 @@ class Search extends Component {
             console.log('API ERROR!');
           }
         });
+    } else {
+      console.log(`query => ${query} \n EMPTY QUERY`);
     }
   }
 
-  appState() {
+  appState = () => {
     if (this.state.isLoading) {
       return (
         <div className="loading">
           <BeatLoader
-            size={20}
+            size={15}
             color={'#36D7B7'}
             loading={this.state.isLoading}
           />
@@ -60,7 +62,7 @@ class Search extends Component {
           authors={book.authors}
           id={book.id}
           imageURL={book.imageLinks.thumbnail}
-          shelf={book.shelf}
+          //shelf={book.shelf}
           title={book.title}
           onShelfChange={this.props.onShelfChange}
         />

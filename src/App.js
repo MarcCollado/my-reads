@@ -25,6 +25,7 @@ class BooksApp extends Component {
     } else {
       BooksAPI.getAll()
         .then((books) => {
+          console.log(books);
           this.setState(() => ({
             books,
             isLoading: false,
@@ -53,6 +54,7 @@ class BooksApp extends Component {
       return (
         <div className="loading">
           <BeatLoader
+            size={20}
             color={'#36D7B7'}
             loading={this.state.isLoading}
           />
@@ -65,7 +67,6 @@ class BooksApp extends Component {
           <h1>MyReads</h1>
         </div>
         <ListBooks
-          size={20}
           books={this.state.books}
           onShelfChange={this.onShelfChange}
         />
