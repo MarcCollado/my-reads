@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import Book from './Book';
@@ -15,6 +16,11 @@ class Search extends Component {
     };
   }
 
+  static propTypes = {
+    books: PropTypes.array,
+    onShelfChange: PropTypes.func,
+  }
+
   handleChange = (e) => {
     this.callAPI(e);
     this.setState({
@@ -22,6 +28,8 @@ class Search extends Component {
       isLoading: true,
     });
   }
+
+  componentDidUpdate() {}
 
   callAPI = (query) => {
     if (query) {
@@ -44,29 +52,52 @@ class Search extends Component {
   }
 
   appState = () => {
-    if (this.state.isLoading) {
+    const { isLoading, searchResult } = this.state;
+    const { books: localBooks } = this.props;
+
+    if (isLoading) {
       return (
         <div className="loading">
           <BeatLoader
             size={15}
             color={'#36D7B7'}
-            loading={this.state.isLoading}
+            loading={isLoading}
           />
         </div>
       );
     }
     return (
-      this.state.searchResult.map(book => (
-        <Book
-          key={book.id}
-          authors={book.authors}
-          id={book.id}
-          imageURL={book.imageLinks.thumbnail}
-          //shelf={book.shelf}
-          title={book.title}
-          onShelfChange={this.props.onShelfChange}
-        />
-      ))
+      searchResult.map(cloudBook => {
+        const localIndex = localBooks.findIndex(localBook => {
+          return localBook.id === cloudBook.id;
+        })
+        if (localIndex !== -1) {
+          const localBook = localBooks[localIndex];
+          return (
+            <Book
+              key={localBook.id}
+              authors={localBook.authors}
+              id={localBook.id}
+              imageURL={localBook.imageLinks.thumbnail}
+              shelf={localBook.shelf}
+              title={localBook.title}
+              onShelfChange={this.props.onShelfChange}
+            />
+          )
+        } else {
+          return (
+            <Book
+              key={cloudBook.id}
+              authors={cloudBook.authors}
+              id={cloudBook.id}
+              imageURL={cloudBook.imageLinks.thumbnail}
+              shelf='none'
+              title={cloudBook.title}
+              onShelfChange={this.props.onShelfChange}
+            />
+          )
+        }
+      })
     );
   }
 

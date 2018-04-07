@@ -25,7 +25,6 @@ class BooksApp extends Component {
     } else {
       BooksAPI.getAll()
         .then((books) => {
-          console.log(books);
           this.setState(() => ({
             books,
             isLoading: false,
@@ -35,15 +34,27 @@ class BooksApp extends Component {
   }
 
   onShelfChange = (newShelf, bookId) => {
-    const partialStateCb = currentState => ({
-      books: currentState.books.map((book) => {
-        if (book.id === bookId) {
-          book.shelf = newShelf;
-          return book;
-        }
-        return book;
-      }),
-    });
+    const partialStateCb = prevState => {
+      if (prevState.books.some(book => book.id === bookId)) {
+        return ({
+          books: prevState.books.map((book) => {
+            if (book.id === bookId) {
+              book.shelf = newShelf;
+              return book;
+            }
+            return book;
+          }),
+        });
+      } else {
+        BooksAPI.get(bookId)
+          .then((book) => {
+            book.shelf = newShelf;
+            return({
+              books: prevState.books.push(book),
+            })
+          });
+      }
+    };
     this.setState(partialStateCb, () => {
       StorageAPI.saveFile('localBooks', this.state.books);
     });
@@ -86,7 +97,10 @@ class BooksApp extends Component {
           exact
           path="/search"
           render={() => (
-            <Search />
+            <Search
+              books={this.state.books}
+              onShelfChange={this.onShelfChange}
+            />
           )}
         />
         <Link

@@ -2,28 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Book extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isInLibrary: false,
-    };
-  }
 
   static propTypes = {
     authors: PropTypes.array,
     id: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
-    shelf: PropTypes.string,
+    shelf: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     onShelfChange: PropTypes.func,
   }
 
   componentDidMount() {
-    if (this.props.shelf !== 'none') {
-      this.setState(() => ({
-        isInLibrary: false,
-      }));
-    }
+
   }
 
   render() {
@@ -61,7 +51,7 @@ class Book extends Component {
             />
             <div className="book-shelf-changer">
               <select
-                value={this.state.isInLibrary ? shelf : "none"}
+                value={shelf}
                 onChange={e => this.props.onShelfChange(e.target.value, id)}
               >
                 <option value="moveTo" disabled>Move to...</option>
