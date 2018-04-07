@@ -4,40 +4,57 @@ import { BeatLoader } from 'react-spinners';
 import ListBooks from './ListBooks';
 import Search from './Search';
 import * as BooksAPI from './utils/BooksAPI';
-import * as StorageAPI from './utils/StorageAPI';
+import * as LocalStorageAPI from './utils/LocalStorageAPI';
 import './App.css';
 
 class BooksApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
+      userLibrary: [],
       isLoading: true,
     };
   }
 
   componentDidMount() {
-    if (StorageAPI.getFile('localBooks')) {
+    // Check if there's already a userLibrary in localStorage
+    if (LocalStorageAPI.getFile('localBooks')) {
+      // Set the userLibrary state with localStorage
       this.setState(() => ({
-        books: StorageAPI.getFile('localBooks'),
+        userLibrary: LocalStorageAPI.getFile('localBooks'),
         isLoading: false,
       }));
     } else {
+      // If there's no userLibrary in localStorage,
+      // get initial set the userLibrary from the API and set the state
       BooksAPI.getAll()
         .then((books) => {
           this.setState(() => ({
-            books,
+            userLibrary: books,
             isLoading: false,
           }));
         });
     }
   }
 
+  componentDidUpdate() {
+    console.log('AppDidUpdate');
+  }
+
+  // When component unmounts, back up a local copy of the userLibrary
+  componentWillUnmount() {
+    LocalStorageAPI.saveFile('localBooks', this.state.userLibrary);
+  }
+
   onShelfChange = (newShelf, bookId) => {
-    const partialStateCb = prevState => {
-      if (prevState.books.some(book => book.id === bookId)) {
+    // Either if it was an existing book from the userLibrary or
+    // fetched from searchResults, update the state
+    this.setState((prevState) => {
+      // Check if the book was already in the userLibrary
+      if (prevState.userLibrary.some(book => book.id === bookId)) {
+        // If it already was in userLibrary, just update its shelf
         return ({
-          books: prevState.books.map((book) => {
+          userLibrary: prevState.userLibrary.map((book) => {
             if (book.id === bookId) {
               book.shelf = newShelf;
               return book;
@@ -45,29 +62,31 @@ class BooksApp extends Component {
             return book;
           }),
         });
-      } else {
-        BooksAPI.get(bookId)
-          .then((book) => {
-            book.shelf = newShelf;
-            return({
-              books: prevState.books.push(book),
-            })
-          });
       }
-    };
-    this.setState(partialStateCb, () => {
-      StorageAPI.saveFile('localBooks', this.state.books);
+      // If the book was not in userLibrary, it comes from searchResults,
+      // then assign it a shelf and add it to userLibrary
+      BooksAPI.get(bookId)
+        .then((book) => {
+          book.shelf = newShelf;
+          return ({
+            userLibrary: prevState.userLibrary.push(book),
+          });
+        });
+    }, () => {
+      LocalStorageAPI.saveFile('localBooks', this.state.userLibrary);
     });
   }
 
-  appState = () => {
-    if (this.state.isLoading) {
+  appStateController = () => {
+    const { isLoading, userLibrary } = this.state;
+    // Show userLibrary after the application has finished loading
+    if (isLoading) {
       return (
         <div className="loading">
           <BeatLoader
-            size={20}
-            color={'#36D7B7'}
-            loading={this.state.isLoading}
+            size={15}
+            color="#36D7B7"
+            loading={isLoading}
           />
         </div>
       );
@@ -78,7 +97,7 @@ class BooksApp extends Component {
           <h1>MyReads</h1>
         </div>
         <ListBooks
-          books={this.state.books}
+          books={userLibrary}
           onShelfChange={this.onShelfChange}
         />
       </div>
@@ -91,14 +110,14 @@ class BooksApp extends Component {
         <Route
           exact
           path="/"
-          render={this.appState}
+          render={this.appStateController}
         />
         <Route
           exact
           path="/search"
           render={() => (
             <Search
-              books={this.state.books}
+              books={this.state.userLibrary}
               onShelfChange={this.onShelfChange}
             />
           )}
@@ -110,10 +129,6 @@ class BooksApp extends Component {
         </Link>
       </div>
     );
-  }
-
-  componentWillUnmount() {
-    StorageAPI.saveFile('localBooks', this.state.books);
   }
 }
 

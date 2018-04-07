@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Book extends Component {
-
   static propTypes = {
     authors: PropTypes.array,
     id: PropTypes.string.isRequired,
@@ -12,8 +11,8 @@ class Book extends Component {
     onShelfChange: PropTypes.func,
   }
 
-  componentDidMount() {
-
+  componentDidUpdate() {
+    console.log('BookDidUpdate');
   }
 
   render() {

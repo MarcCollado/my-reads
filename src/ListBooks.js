@@ -8,16 +8,15 @@ class ListBooks extends Component {
     onShelfChange: PropTypes.func,
   }
 
-  generateShelf(shelfTitle, shelfId) {
+  createShelf(shelfTitle, shelfId) {
     const { books } = this.props;
-    const moveToBookShelf = bookShelf => books.filter(book => book.shelf === bookShelf);
-
+    const moveToShelf = bookShelf => books.filter(book => book.shelf === bookShelf);
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {moveToBookShelf(shelfId).map(book => (
+            {moveToShelf(shelfId).map(book => (
               <Book
                 key={book.id}
                 authors={book.authors}
@@ -38,9 +37,9 @@ class ListBooks extends Component {
     return (
       <div className="list-books-content">
         <div>
-          {this.generateShelf('Currently Reading', 'currentlyReading')}
-          {this.generateShelf('Want to Read', 'wantToRead')}
-          {this.generateShelf('Read', 'read')}
+          {this.createShelf('Currently Reading', 'currentlyReading')}
+          {this.createShelf('Want to Read', 'wantToRead')}
+          {this.createShelf('Read', 'read')}
         </div>
       </div>
     );
