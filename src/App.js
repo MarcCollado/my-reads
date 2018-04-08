@@ -85,7 +85,7 @@ class BooksApp extends Component {
         <div className="loading">
           <BeatLoader
             size={15}
-            color="#36D7B7"
+            color="#26A69A"
             loading={isLoading}
           />
         </div>

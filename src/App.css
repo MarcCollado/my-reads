@@ -1,3 +1,4 @@
+
 html, body, .root {
   height: 100%;
 }
@@ -12,11 +13,11 @@ body, .app {
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #00796B;
   text-align: center;
 }
 .list-books-title h1 {
-  font-weight: 400;
+  font-weight: bold;
   margin: 0;
   color: white;
 }
@@ -53,7 +54,7 @@ body, .app {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #26A69A;
   background-image: url('./icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -124,7 +125,7 @@ body, .app {
 }
 .book-title,
 .book-authors {
-  font-size: 0.8em;
+  font-size: 0.75em;
 }
 .book-title {
   margin-top: 10px;
@@ -147,7 +148,7 @@ body, .app {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #26A69A;
   background-image: url('./icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
