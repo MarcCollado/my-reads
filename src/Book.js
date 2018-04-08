@@ -5,7 +5,6 @@ class Book extends Component {
   static propTypes = {
     authors: PropTypes.array,
     id: PropTypes.string.isRequired,
-    imageURL: PropTypes.string.isRequired,
     shelf: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     onShelfChange: PropTypes.func,
@@ -19,6 +18,14 @@ class Book extends Component {
     const {
       authors, id, imageURL, shelf, title,
     } = this.props;
+
+    const urlValidator = (img) => {
+      if (img) {
+        return img;
+      }
+      return 'http://localhost:3000/images/book.png';
+    };
+
 
     const displayAuthors = authorList => authorList.join(' & ');
     /*
@@ -45,7 +52,7 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 192,
-                backgroundImage: `url(${imageURL})`,
+                backgroundImage: `url(${urlValidator(imageURL)})`,
               }}
             />
             <div className="book-shelf-changer">

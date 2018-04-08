@@ -89,7 +89,7 @@ class Search extends Component {
                 key={searchResult.id}
                 authors={searchResult.authors}
                 id={searchResult.id}
-                imageURL={searchResult.imageLinks.thumbnail}
+                imageURL={searchResult.hasOwnProperty('imageLinks') && searchResult.imageLinks.thumbnail}
                 shelf="none"
                 title={searchResult.title}
                 onShelfChange={this.props.onShelfChange}
@@ -104,7 +104,7 @@ class Search extends Component {
               key={localBook.id}
               authors={localBook.authors}
               id={localBook.id}
-              imageURL={localBook.imageLinks.thumbnail}
+              imageURL={localBook.hasOwnProperty('imageLinks') && localBook.imageLinks.thumbnail}
               shelf={localBook.shelf}
               title={localBook.title}
               onShelfChange={this.props.onShelfChange}
@@ -112,9 +112,8 @@ class Search extends Component {
           );
         })
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {

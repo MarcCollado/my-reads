@@ -21,7 +21,7 @@ class ListBooks extends Component {
                 key={book.id}
                 authors={book.authors}
                 id={book.id}
-                imageURL={book.imageLinks.thumbnail}
+                imageURL={book.hasOwnProperty('imageLinks') && book.imageLinks.thumbnail}
                 shelf={book.shelf}
                 title={book.title}
                 onShelfChange={this.props.onShelfChange}
