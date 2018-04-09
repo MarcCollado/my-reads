@@ -10,15 +10,18 @@ class ListBooks extends Component {
 
   createShelf(shelfTitle, shelfId) {
     const { books } = this.props;
-    const moveToShelf = bookShelf => books.filter(book => book.shelf === bookShelf);
+    const moveToShelf = (bookShelf) => {
+      return books.filter((book) => book.shelf === bookShelf);
+    }
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {moveToShelf(shelfId).map(book => (
+            {moveToShelf(shelfId).map((book) => (
               <Book
                 key={book.id}
+                book={book}
                 authors={book.authors}
                 id={book.id}
                 imageURL={book.hasOwnProperty('imageLinks') && book.imageLinks.thumbnail}

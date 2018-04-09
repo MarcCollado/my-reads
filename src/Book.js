@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
   static propTypes = {
+    book: PropTypes.object,
     authors: PropTypes.array,
     id: PropTypes.string.isRequired,
     shelf: PropTypes.string.isRequired,
@@ -16,7 +17,7 @@ class Book extends Component {
 
   render() {
     const {
-      authors, id, imageURL, shelf, title,
+      book, authors, id, imageURL, shelf, title, onShelfChange,
     } = this.props;
 
     const urlValidator = (img) => {
@@ -58,7 +59,7 @@ class Book extends Component {
             <div className="book-shelf-changer">
               <select
                 value={shelf}
-                onChange={e => this.props.onShelfChange(e.target.value, id)}
+                onChange={e => onShelfChange(e.target.value, book)}
               >
                 <option value="moveTo" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>

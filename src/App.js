@@ -46,32 +46,30 @@ class BooksApp extends Component {
     LocalStorageAPI.saveFile('localBooks', this.state.userLibrary);
   }
 
-  onShelfChange = (newShelf, bookId) => {
+  onShelfChange = (newShelf, book) => {
     // Either if it was an existing book from the userLibrary or
     // fetched from searchResults, update the state
     this.setState((prevState) => {
       // Check if the book was already in the userLibrary
-      if (prevState.userLibrary.some(book => book.id === bookId)) {
+      if (prevState.userLibrary.some(libBook => libBook.id === book.id)) {
         // If it already was in userLibrary, just update its shelf
         return ({
-          userLibrary: prevState.userLibrary.map((book) => {
-            if (book.id === bookId) {
-              book.shelf = newShelf;
-              return book;
+          userLibrary: prevState.userLibrary.map((libBook) => {
+            if (libBook.id === book.id) {
+              // Update shelf
+              libBook.shelf = newShelf;
+              return libBook;
             }
-            return book;
+            return libBook;
           }),
-        });
+        })
       }
       // If the book was not in userLibrary, it comes from searchResults,
-      // then assign it a shelf and add it to userLibrary
-      BooksAPI.get(bookId)
-        .then((book) => {
-          book.shelf = newShelf;
-          return ({
-            userLibrary: prevState.userLibrary.push(book),
-          });
-        });
+      // then assign it the new shelf and add it to userLibrary
+      book.shelf = newShelf;
+      return ({
+        userLibrary: prevState.userLibrary.concat(book),
+      });
     }, () => {
       LocalStorageAPI.saveFile('localBooks', this.state.userLibrary);
     });
@@ -105,6 +103,7 @@ class BooksApp extends Component {
   }
 
   render() {
+    const { userLibrary } = this.state;
     return (
       <div className="app">
         <Route
@@ -117,7 +116,7 @@ class BooksApp extends Component {
           path="/search"
           render={() => (
             <Search
-              books={this.state.userLibrary}
+              books={userLibrary}
               onShelfChange={this.onShelfChange}
             />
           )}

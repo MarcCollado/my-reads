@@ -8,7 +8,7 @@ import './App.css';
 
 class Search extends Component {
   static propTypes = {
-    books: PropTypes.array,
+    books: PropTypes.array.isRequired,
     onShelfChange: PropTypes.func,
   }
 
@@ -80,13 +80,14 @@ class Search extends Component {
         // Loop through the book results fetched from the API
         searchResults.map((searchResult) => {
           // Check if the searchResult already exists in userLibrary
-          const localIndex = userLibrary.findIndex(localBook => localBook.id === searchResult.id);
-          if (localIndex === -1) {
+          const i = userLibrary.findIndex(libBook => libBook.id === searchResult.id);
+          if (i === -1) {
             // If it is not in userLibrary, return the searchResult with the
             // shelf value set to none because the user has not changed it yet
             return (
               <Book
                 key={searchResult.id}
+                book={searchResult}
                 authors={searchResult.authors}
                 id={searchResult.id}
                 imageURL={searchResult.hasOwnProperty('imageLinks') && searchResult.imageLinks.thumbnail}
@@ -98,15 +99,16 @@ class Search extends Component {
           }
           // If the searchResult already exists in userLibrary display the
           // local copy instead with shelf value set to its current state
-          const localBook = userLibrary[localIndex];
+          const libBook = userLibrary[i];
           return (
             <Book
-              key={localBook.id}
-              authors={localBook.authors}
-              id={localBook.id}
-              imageURL={localBook.hasOwnProperty('imageLinks') && localBook.imageLinks.thumbnail}
-              shelf={localBook.shelf}
-              title={localBook.title}
+              key={libBook.id}
+              book={libBook}
+              authors={libBook.authors}
+              id={libBook.id}
+              imageURL={libBook.hasOwnProperty('imageLinks') && libBook.imageLinks.thumbnail}
+              shelf={libBook.shelf}
+              title={libBook.title}
               onShelfChange={this.props.onShelfChange}
             />
           );
