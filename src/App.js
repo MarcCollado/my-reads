@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { BeatLoader } from 'react-spinners';
 import ListBooks from './ListBooks';
 import Search from './Search';
 import * as BooksAPI from './utils/BooksAPI';
 import * as LocalStorageAPI from './utils/LocalStorageAPI';
+// UI Kit Components
+import LoadSpinner from './ui/CircularProgress';
+// Styles
 import './App.css';
 
 class BooksApp extends Component {
@@ -81,11 +83,7 @@ class BooksApp extends Component {
     if (isLoading) {
       return (
         <div className="loading">
-          <BeatLoader
-            size={15}
-            color="#26A69A"
-            loading={isLoading}
-          />
+          <LoadSpinner />
         </div>
       );
     }

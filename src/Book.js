@@ -17,7 +17,7 @@ class Book extends Component {
 
   render() {
     const {
-      book, authors, id, imageURL, shelf, title, onShelfChange,
+      book, authors, imageURL, shelf, title, onShelfChange,
     } = this.props;
 
     const urlValidator = (img) => {
