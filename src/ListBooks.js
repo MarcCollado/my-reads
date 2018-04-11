@@ -12,7 +12,7 @@ class ListBooks extends Component {
     const { books } = this.props;
     const moveToShelf = (bookShelf) => {
       return books.filter((book) => book.shelf === bookShelf);
-    }
+    };
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>

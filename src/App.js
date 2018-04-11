@@ -40,7 +40,7 @@ class BooksApp extends Component {
   }
 
   componentDidUpdate() {
-    console.log('AppDidUpdate');
+    // console.log('AppDidUpdate');
   }
 
   // When component unmounts, back up a local copy of the userLibrary
@@ -64,7 +64,7 @@ class BooksApp extends Component {
             }
             return libBook;
           }),
-        })
+        });
       }
       // If the book was not in userLibrary, it comes from searchResults,
       // then assign it the new shelf and add it to userLibrary

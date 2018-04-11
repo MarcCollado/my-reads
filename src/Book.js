@@ -5,14 +5,13 @@ class Book extends Component {
   static propTypes = {
     book: PropTypes.object,
     authors: PropTypes.array,
-    id: PropTypes.string.isRequired,
     shelf: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     onShelfChange: PropTypes.func,
   }
 
   componentDidUpdate() {
-    console.log('BookDidUpdate');
+    // console.log('BookDidUpdate');
   }
 
   render() {

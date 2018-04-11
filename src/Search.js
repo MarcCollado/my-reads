@@ -25,7 +25,7 @@ class Search extends Component {
   }
 
   componentDidUpdate() {
-    console.log('SearchDidUpdate');
+    // console.log('SearchDidUpdate');
   }
 
   handleChange = (e) => {
@@ -67,7 +67,9 @@ class Search extends Component {
   }
 
   appStateController = () => {
-    const { apiError, isLoading, query, searchResults } = this.state;
+    const {
+      apiError, isLoading, query, searchResults,
+    } = this.state;
     // Get from props the books that already are in the userLibrary
     const { books: userLibrary } = this.props;
     if (query === '' && apiError) {
