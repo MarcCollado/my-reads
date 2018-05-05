@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import ListBooks from './ListBooks';
-import Search from './Search';
+import ListBooks from './components/ListBooks';
+import Search from './components/Search';
 import * as BooksAPI from './utils/BooksAPI';
 import * as LocalStorageAPI from './utils/LocalStorageAPI';
 // UI Kit Components
-import LoadSpinner from './ui/CircularProgress';
+import LoadSpinner from './components/CircularProgress';
 // Styles
 import './App.css';
 

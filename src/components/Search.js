@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Book from './Book';
-import * as BooksAPI from './utils/BooksAPI';
+import * as BooksAPI from '../utils/BooksAPI';
 // UI Kit Components
-import LoadSpinner from './ui/CircularProgress';
+import LoadSpinner from './CircularProgress';
 // Styles
-import './App.css';
+import '../App.css';
 
 class Search extends Component {
   static propTypes = {
@@ -75,8 +75,8 @@ class Search extends Component {
     if (query === '' && apiError) {
       return (
         <div>
-          <h2>Your query didn't get any results</h2>
-          <p>It seems we don't have any no books matching your search criteria.</p>
+          <h2>Your query did not get any results</h2>
+          <p>It seems we do not have any no books matching your search criteria.</p>
           <p>Please, type a new query in the Search Box.</p>
         </div>
       );
@@ -93,9 +93,7 @@ class Search extends Component {
         // Loop through the book results fetched from the API
         searchResults.map((searchResult) => {
           // Check if the searchResult already exists in userLibrary
-          const i = userLibrary.findIndex((libBook) => {
-            return libBook.id === searchResult.id;
-          });
+          const i = userLibrary.findIndex(libBook => libBook.id === searchResult.id);
           if (i === -1) {
             // If it is not in userLibrary, return the searchResult with the
             // shelf value set to none because the user has not changed it yet

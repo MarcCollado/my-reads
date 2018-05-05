@@ -1,7 +1,27 @@
 # MyReads: A Book Tracking App
 React Fundamentals Project — Udacity React Developer Nanodegree
 
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
+This is the first project of the [React Developer Nanodegree](https://eu.udacity.com/course/react-nanodegree--nd019).
+
+* [MyReads](https://github.com/MarcCollado/my-reads) — React Fundamentals Project
+* [Would You Rather](https://github.com/MarcCollado/would-you-rather) — React & Redux Project
+* TBD — React Native Project
+
+
+## TL;DR
+This project consists in a small application, of course built in React, that allows you to manage your own book library.
+
+![img](/public/images/books.png)
+
+At launch the user is presented with a default collection of books categorized in three shelves (`Currently Reading`, `Want to Read` and `Read`). Then books can be moved around the shelves, according to their state.
+
+On top of that, the user is also able to search for new books through a custom API and add them to the library.
+
+
+## Tech Stack
+* [React](https://reactjs.org/)
+* [React Router](https://github.com/ReactTraining/react-router)
+
 
 ## Setting Things Up
 To get started right away:
@@ -27,6 +47,8 @@ The *User Library* features three distinct Shelves that match each book status: 
 ### Change Shelf
 Within the *User Library*, books can be moved across the three aforementioned shelves (`Currently Reading`, `Want to Read` and `Read`) through the inline book switcher.
 
+![img](/public/images/switcher.jpg)
+
 Updates will happen in real time and are not affected by browser refresh because a backup of the app `state` is always stored in the client `localStorage` at `componentWillUnmount`.
 
 ### Search
@@ -36,6 +58,8 @@ This button will route the user to `/search`, which at launch displays a blank s
 
 Once the user starts typing, up to 20 search results are fetched from the API and shown in real time.
 
+![img](/public/images/search.png)
+
 The user will be able to add any of the queried books to the *User Library* through the same switcher used to change shelves.
 
 * Book results that are not yet in the *User Library* will show a default value of `None`.
@@ -44,24 +68,3 @@ The user will be able to add any of the queried books to the *User Library* thro
 After the user changes a book shelf and goes back to the *User Library* through the back (←) button (located at the top left of the *Search* screen), the book will be successfully updated in the right shelf.
 
 Finally, if the API is not able to fetch matching results to the user criteria, the app will prompt a warning message informing of the situation.
-
-
-## Main Files
-```bash
-├── README.md - This file.
-├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
-├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
-└── src
-    ├── App.css # Styles for your app. Feel free to customize this as you desire.
-    ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # Global styles. You probably won't need to change anything here.
-    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
-```
