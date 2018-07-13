@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default class LoadSpinner extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ export default class LoadSpinner extends React.Component {
 
   render() {
     return (
-      <CircularProgress />
+      <CircularProgress style={{ color: "#00796B" }}/>
     );
   }
 }

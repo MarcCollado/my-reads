@@ -36,7 +36,7 @@ Once the server has started with `npm start` the user will be routed, by default
 ### User Library
 At launch, `BooksApp` will check if the client already has a `localStorage` copy of the library. If it does, it'll update the `state` with the local data — i.e. that's usually the case when the user reloads the browser.
 
-If a `localStorage` library is not found, the app will fetch the initial set of books from the API and update its `state` with its response.
+If a `localStorage` library is not found, the app will fetch the initial set of books from the API and update its `state` with the response.
 
 After the data has been successfully retrieved, either from `localStorage` or the API, the path `'/'` will render the *User Library* right away.
 
