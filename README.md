@@ -4,7 +4,7 @@ React Fundamentals Project — Udacity React Developer Nanodegree
 This is the first project of the [React Developer Nanodegree](https://eu.udacity.com/course/react-nanodegree--nd019).
 
 * [MyReads](https://github.com/MarcCollado/my-reads) — React Fundamentals Project
-* [Would You Rather](https://github.com/MarcCollado/would-you-rather) — React & Redux Project
+* [Magis](https://github.com/MarcCollado/magis), formerly [Would You Rather](https://www.collado.io/blog/2018/magis-10) — React & Redux Project
 * [Flashcards](https://github.com/MarcCollado/flashcards) — React Native Project
 
 
