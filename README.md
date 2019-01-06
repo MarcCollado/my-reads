@@ -1,4 +1,4 @@
-# A Book Tracking App 📚
+# 📚 Book Tracking App
 React Project — Udacity React Developer Nanodegree
 
 This is the first project of the [React Developer Nanodegree](https://eu.udacity.com/course/react-nanodegree--nd019). Below you'll find the rest of the Nanodegree projects and I also wrote a [short post](https://www.collado.io/blog/2018/udacity-rdnd) in my blog about the course experience.
